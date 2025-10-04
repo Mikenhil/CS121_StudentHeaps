@@ -2,15 +2,17 @@
 #define DATE_H
 
 #include <iostream>
+#include <string>
 
 class Date {
-	int month;
-	int day;
-	int year;
-
+	protected:
+		std::string month;
+		std::string day;
+		std::string year;
+	
 	public:
 		Date();
-		void init(string dateStr);
+		void init(std::string dateStr);
 		void printDate();
 };
 

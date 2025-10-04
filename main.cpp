@@ -1,17 +1,19 @@
 #include <iostream>
 
-#include <address.h>
-#include <date.h>
+#include "address.h"
+#include "date.h"
+#include "student.h"
 
 void testAddress();
-void testData();
+void testDate();
+void testStudent();
 
 int main() {
 
 	std::cout << "Hello!" << std::endl;
-	testAddress();
 	testDate();
-
+	testAddress();
+	testStudent();
 	return 0;
 
 }
@@ -26,4 +28,14 @@ void testDate() {
 	Date d;
 	d.init("01/27/1997");
 	d.printDate();
+}
+
+void testStudent() {
+	std::string studentString = "Danielle,Johnson,32181 Johnson Course Apt. 389,New Jameside,IN,59379,02/17/2004,05/15/2027,65";
+	Student* student = new Student();
+	student->init(studentString);
+	student->printStudent();
+	std::cout << std::endl;
+	std::cout << student->getLastFirst() << std::endl;
+	delete student;
 }
