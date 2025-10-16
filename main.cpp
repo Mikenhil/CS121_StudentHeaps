@@ -24,7 +24,6 @@ int main() {
 	bool test = false;
 
 	if(test) {
-		std::cout << "Hello!" << std::endl;
 		testDate();
 		testAddress();
 		testStudent();
@@ -108,8 +107,7 @@ void menu() {
 		std::cout << "" << std::endl;
 
 		// Quit
-		if(menu_selection == "0") {
-			std::cout << "Quit" << std::endl; 
+		if(menu_selection == "0") { 
 			delStudents(students);
 			keepGoing = false;
 		}
@@ -151,6 +149,6 @@ void testStudent() {
 	student->init(studentString);
 	student->printStudent();
 	std::cout << std::endl;
-	//std::cout << student->getLastFirst() << std::endl;
+	std::cout << student->getLastFirst() << std::endl;
 	delete student;
 }
