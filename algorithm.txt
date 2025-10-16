@@ -1,0 +1,93 @@
+Includes Needed (iostream, fstream, sstream, string, vector)
+Class Headers (address.h, date.h, student.h)
+
+DECLARE loadStudents(Students<> vector): void
+DELCARE printStudents(Student<> vector): void
+DECLARE showStudents(Student<> vector): void
+DECLARE findStudents(Student<> vector): void
+DECLARE delStudents(Student<> vector): void
+
+DECLARE menu(): void
+
+FUNCTION main(): int
+	CALL menu()
+
+FUNCTION loadStudents(Student<> vector): void
+	DECLARE VARIABLE stringstream ss
+	
+	OPEN File("students.csv") file
+	DECLARE VARIABLE string line
+
+	IF file IS open
+		WHILELOOP load line
+			HEAP DECLARE new Student student
+			CALL student->init(line)
+
+			ADD student to vector
+
+	ELSE
+		print "Unable to load file."-> end line
+
+FUNCTION printStudents(Student<> vector): void
+	FORLOOP ITERATE vector AS student
+		CALL student->printStudent()
+		print "-----------------------------------"
+
+FUNCTION showStudentNames(Student<> vector): void
+	FORLOOP ITERATE vector AS student
+		print student->printStudent()-> end line
+
+FUNCTION findStudent(Student<> vector): void
+	DECLARE VARIABLE string response
+	print "last name of student: "
+	prompt response
+
+	FORLOOP ITERATE vector AS student
+		IF response.sub FINDS pos in vector
+			CALL student->printStudent()
+
+FUNCTION delStudents(): void
+	FORLOOP ITERATE vector as student
+		delete student
+	clear vector
+
+FUNCTION menu(): void
+	DECLARE VARIABLE Student<> students
+	CALL loadStudents()
+
+	DECLARE VARIABLE Boolean keepGoing EQUALS true
+	WHILELOOP keepGoing EQUALS true
+		print [0-3 menu items]
+
+		DECLARE VARIABLE string menu_selection
+		print "please choose 0-3: "
+		prompt menu_selection
+		
+		IF menu_selection EQUALS "0"
+			CALL delStudents(students)
+			ASSIGN keepGoing EQUALS false
+
+		ELSE IF menu_selection EQUALS "1"
+			CALL printStudents(students)
+			
+		ELSE IF menu_selection EQUALS "2"
+			CALL showStudentNames(students)			
+
+		ELSE IF menu_selection EQUALS "3"
+			CALL findStudent(students)
+		ELSE
+			print "Invalid Input. Try again...."-> end line	
+
+		print end line
+
+
+
+
+
+	
+
+
+
+
+
+
