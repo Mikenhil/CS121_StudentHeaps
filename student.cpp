@@ -66,7 +66,5 @@ void Student::printStudent() {
 }
 
 std::string Student::getLastFirst() {
-	std::string tempStr = lastName + ", " + firstName;
-
-	return tempStr;
+	return lastName + ", " + firstName;
 }

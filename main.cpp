@@ -1,21 +1,136 @@
 #include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <vector>
 
 #include "address.h"
 #include "date.h"
 #include "student.h"
+
+void loadStudents(std::vector<Student*>& vector);
+void printStudents(std::vector<Student*>& vector);
+void showStudents(std::vector<Student*>& vector);
+void findStudent(std::vector<Student*>& vector);
+void delStudents(std::vector<Student*>& vector);
+
+void menu();
 
 void testAddress();
 void testDate();
 void testStudent();
 
 int main() {
+	bool test = false;
 
-	std::cout << "Hello!" << std::endl;
-	testDate();
-	testAddress();
-	testStudent();
+	if(test) {
+		std::cout << "Hello!" << std::endl;
+		testDate();
+		testAddress();
+		testStudent();
+	} 
+	else {
+		menu();
+	}
 	return 0;
 
+}
+
+void loadStudents(std::vector<Student*>& vector) {
+	std::stringstream ss;
+
+	std::ifstream file ("students.csv");
+	std::string line;
+
+	if(file.is_open()) {
+		while(getline(file, line)) {
+			Student* student = new Student();
+			student->init(line);
+			
+			vector.push_back(student);
+		}
+	}
+	else {
+		std::cout << "Unable to open file." << std::endl;
+	}
+}
+
+void printStudents(std::vector<Student*>& vector) {
+	// Using modern iteration for c++ 11+
+	for(auto& student: vector) {
+		student->printStudent();
+		std::cout << "----------------------------" << std::endl;
+	}
+}
+
+void showStudentNames(std::vector<Student*>& vector) {
+	for(auto& student: vector) {
+		std::cout << student->getLastFirst() << std::endl;
+	}
+}
+
+void findStudent(std::vector<Student*>& vector) {
+	std::string response;
+
+	std::cout << "last name of student: ";
+	std::cin >> response;
+
+	for(auto& student: vector) {
+		if((student->getLastFirst()).find(response) != std::string::npos)
+			student->printStudent();
+	}
+}
+
+void delStudents(std::vector<Student*>& vector) {
+	for(auto& student: vector) {
+		delete student;
+	}
+
+	vector.clear();
+}
+
+void menu() {
+	std::vector<Student*> students;
+	loadStudents(students);
+
+	bool keepGoing = true;
+	while(keepGoing) {
+		std::cout << "0) quit" << std::endl;
+		std::cout << "1) print all student data" << std::endl;
+		std::cout << "2) print all student names" << std::endl;
+		std::cout << "3) find a student" << std::endl;
+		std::cout << "" << std::endl;
+
+		std::string menu_selection;
+
+		std::cout << "please choose 0-3: ";
+		std::cin >> menu_selection;
+		std::cout << "" << std::endl;
+
+		// Quit
+		if(menu_selection == "0") {
+			std::cout << "Quit" << std::endl; 
+			delStudents(students);
+			keepGoing = false;
+		}
+		// Print all student names
+		else if(menu_selection == "1") {
+			printStudents(students);
+		}
+		// Print all student data
+		else if(menu_selection == "2") {
+			showStudentNames(students);
+		}
+		// Find a student
+		else if(menu_selection == "3") {
+			findStudent(students);
+		}
+		else {
+			std::cout << "Invalid Input. Try again..." << std::endl;
+		}
+
+		std::cout << "" << std::endl;
+	}
 }
 
 void testAddress() {
@@ -36,6 +151,6 @@ void testStudent() {
 	student->init(studentString);
 	student->printStudent();
 	std::cout << std::endl;
-	std::cout << student->getLastFirst() << std::endl;
+	//std::cout << student->getLastFirst() << std::endl;
 	delete student;
 }
